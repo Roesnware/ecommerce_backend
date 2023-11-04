@@ -1,18 +1,61 @@
+// import modules
 const router = require('express').Router();
 const { Product, Category, Tag, ProductTag } = require('../../models');
 
 // The `/api/products` endpoint
 
 // get all products
-router.get('/', (req, res) => {
+router.get('/', async (req, res) => {
   // find all products
   // be sure to include its associated Category and Tag data
+
+  // try 
+  try{
+    // get all products
+    const allProducts = Product.findAll({
+      include: [{ model: Category}, { model: Tag}]
+    });
+
+    // no products in db
+    if(!allProducts) {
+      res.status(400).json({ message: "No products found!"});
+    }
+
+    // success
+    res.status(200).json(allProducts);
+  }
+
+  //catch err bad req server side 
+  catch{}
 });
 
 // get one product
-router.get('/:id', (req, res) => {
+router.get('/:id', async (req, res) => {
   // find a single product by its `id`
   // be sure to include its associated Category and Tag data
+
+  // try
+  try {
+    // get product with id from req 
+    const productById = await Product.findByPk({
+      where: {
+        id: req.params.id
+      }
+    });
+
+    // no proiduct with id 
+    if (!productById) {
+      res.status(400).json({ message: "No product found with that id!" });
+    }
+
+    // success
+    res.status(200).json(productById);
+  }
+
+  // catch err bad req server side 
+  catch (err) {
+    res.status(500).json(err);
+  }
 });
 
 // create new product
@@ -106,7 +149,7 @@ router.delete('/:id', async (req, res) => {
     })
 
     // no product with id from req
-    if(!deleteThisProduct) {
+    if (!deleteThisProduct) {
       res.status(400).json({ message: "No product found with that id!" });
     }
 
