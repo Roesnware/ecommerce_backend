@@ -94,6 +94,8 @@ router.put('/:id', async (req, res) => {
     if (!updateThisTag) {
       res.status(400).json({ message: 'No tag found with this id!' });
     }
+
+    res.status(200).json(updateThisTag);
   }
   // bad req server side 
   catch (err) {
