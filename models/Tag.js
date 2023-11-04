@@ -1,9 +1,13 @@
+// import sequelize
 const { Model, DataTypes } = require('sequelize');
 
+// import conenection
 const sequelize = require('../config/connection.js');
 
+// class extends model
 class Tag extends Model {}
 
+// class constructor
 Tag.init(
   {
     // define columns
@@ -17,4 +21,5 @@ Tag.init(
   }
 );
 
+// export module 
 module.exports = Tag;
