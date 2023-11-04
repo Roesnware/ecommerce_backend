@@ -108,14 +108,25 @@ router.put('/:id', async (req, res) => {
 });
 
 // delete req to delete req 
-router.delete('/:id', (req, res) => {
+router.delete('/:id', async (req, res) => {
   // delete a category by its `id` value
 
   // try
   try {
     // delete category by id from req 
+    const deleteThisCategory = await Category.destroy({
+      where: {
+        id: req.params.id
+      }
+    });
+
+    // no category with id passed from req
+    if (!deleteThisCategory) {
+      res.status(400).json({ message: "No category found with this id!" })
+    }
 
     // success
+    res.status(200).json(deleteThisCategory);
   }
 
   // bad req server side 
