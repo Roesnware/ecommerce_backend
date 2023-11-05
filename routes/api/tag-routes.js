@@ -13,7 +13,7 @@ router.get('/', async (req, res) => {
   try {
     // get all tags 
     const allTags = await Tag.findAll({
-      include: [{ model: Product, through: ProductTag, as: 'tag_products' }]
+      include: [{ model: Product }, { model: ProductTag }],
     });
 
     // no tags in db
@@ -39,7 +39,7 @@ router.get('/:id', async (req, res) => {
   try {
     // find tag by id 
     const tagById = await Tag.findByPk(req.params.id, {
-      include: [{ model: Product, through: ProductTag, as: 'tag_products' }]
+      include: [{ model: Product }, { model: ProductTag }]
     });
 
     // no tag found 

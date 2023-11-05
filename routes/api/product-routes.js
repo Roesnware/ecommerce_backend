@@ -1,5 +1,6 @@
 // import modules
 const router = require('express').Router();
+const { error } = require('console');
 const { Product, Category, Tag, ProductTag } = require('../../models');
 
 // The `/api/products` endpoint
@@ -26,7 +27,9 @@ router.get('/', async (req, res) => {
   }
 
   //catch err bad req server side 
-  catch{}
+  catch (err) {
+    res.status(500).json(err)
+  }
 });
 
 // get one product
